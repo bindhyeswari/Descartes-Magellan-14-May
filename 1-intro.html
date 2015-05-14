@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        canvas {
+            border: 1px solid red;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var canvas = document.querySelector('canvas');
+            console.log(canvas.width, canvas.height); // default is 300 by 150
+
+            var context = canvas.getContext('2d');
+
+            context.fillStyle = 'rgba(255,0,0,0.5)';
+            context.fillRect(10,10,100,100);
+            context.fillRect(90,90,100,100);
+            context.fillStyle = 'rgba(0,255,0,0.5)';
+            context.fillRect(180,180,100,100);
+
+
+            context.clearRect(60,60,100,100);
+
+            context.fillStyle = 'rgba(180,0,0,0.5)';
+            context.strokeRect(100,100,100,100);
+
+            context.font = '32px Helvetica Neue';
+            context.fillText('Raymond', 200,200);
+
+        });
+    </script>
+</head>
+<body>
+<canvas width="600" height="400"></canvas>
+</body>
+</html>

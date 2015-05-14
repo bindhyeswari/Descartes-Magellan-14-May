@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+
+        canvas {
+            display: block;
+            margin: 4em auto;
+            box-shadow: 0 0 20px 5px gray;
+        }
+
+    </style>
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+
+            function Point(x, y) {
+                this.coords = [x, y];
+            }
+
+            Point.prototype.diff = function (b) {
+                var a = this;
+                return this.coords.map(function (coord, index) {
+                    return coord - b.coords[index]
+                });
+            };
+
+            Point.prototype.normalize = function (offset) {
+                // takes in an offset point and normalizes the coords property
+                this.coords = this.diff(offset);
+                return this;
+            };
+
+
+
+            var canvas = document.body.firstElementChild;
+            var canvasRect = canvas.getBoundingClientRect();
+            var offset = new Point(canvasRect.left, canvasRect.top);
+            // todo: Note that the offset is dependent on existing browser size.
+            // If the browser is resized, these values will change
+
+            console.log('offset: ', offset);
+            var context = canvas.getContext('2d');
+            context.fillStyle = 'red';
+
+
+
+
+            function moveHandler(e) {
+                // handle mouse move events
+
+                // calculate the height and the width
+                moveHandler.dimensions = (new Point(e.clientX, e.clientY)).normalize(offset).diff(moveHandler.start);
+                console.log(moveHandler.dimensions);
+
+            }
+
+            canvas.addEventListener('mousedown', function(e) {
+                moveHandler.start = new Point(e.clientX, e.clientY);
+                console.log(moveHandler.start);
+                moveHandler.start.normalize(offset);
+                console.log(moveHandler.start);
+
+                canvas.addEventListener('mousemove', moveHandler);
+            });
+
+            canvas.addEventListener('mousedown', function(e) {
+                canvas.removeEventListener('mousemove', moveHandler);
+            });
+
+            canvas.addEventListener('mouseleave', function(e) {
+                canvas.removeEventListener('mousemove', moveHandler);
+            });
+
+            function normalize(arr) {
+                return arr.map(function (val, index) {
+                    return val - offset[index];
+                });
+            }
+
+
+
+        });
+
+    </script>
+</head>
+<body>
+    <canvas width="600" height="400">
+
+    </canvas>
+</body>
+</html>
