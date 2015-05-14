@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Grayscale</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var canvas = document.body.firstElementChild;
+            var context = canvas.getContext('2d');
+
+            var img = document.createElement('img');
+            img.addEventListener('load', function () {
+                context.drawImage(img, 0, 0);
+
+                // get the image data
+                var image_data_object = context.getImageData(0, 0, img.width, img.height);
+
+                var arr = image_data_object.data;
+
+                var row = 100;
+                var col = 200;
+
+                for (var i = row * img.width + col; i < row * img.width + col + 100; i++) {
+                    // access the pixel information
+                    for (var j = 0; j < 3; j++) {
+                        arr[i * 4 + j] = 0;
+                    }
+                }
+
+                context.putImageData(image_data_object, 0, 0);
+
+                console.log('array length: ', image_data_object.data.length,
+                        '\npixels', image_data_object.data.length / 4);
+
+                console.log('image dimensions: ', img.height, img.width,
+                        '\npixels: ', img.height * img.width);
+
+
+            });
+            img.src = 'img/beach.jpg';
+        });
+    </script>
+</head>
+<body>
+<canvas height="600" width="1200"></canvas>
+</body>
+</html>
